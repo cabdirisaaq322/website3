@@ -1,0 +1,22 @@
+<!DOCTYPE html><html><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>App</title><script src="https://cdn.tailwindcss.com"></script><link rel="stylesheet" href="/style.css?v=lg1"></head>
+<body class="antialiased"><div class="lg-bg"><div class="lg-blob lg-b1"></div><div class="lg-blob lg-b2"></div><div class="lg-blob lg-b3"></div><div class="lg-grain"></div></div>
+<div id="root" class="wrap"><header class="liquid" data-lg="bar"><div class="wrap topbar-in"><a class="logo" href="/">⬇ Download<span>Hub</span></a><nav><a href="/">Home</a></nav></div></header>
+<div class="wrap"><div id="d" class="detail liquid" data-lg="hero"><div class="glass-content">Loading...</div></div><div id="rel"></div></div></div>
+<script>
+const slug=location.pathname.split('/app/')[1]||new URLSearchParams(location.search).get('slug');
+const fmtN=n=>n>=1e6?(n/1e6).toFixed(1)+'M':n>=1e3?(n/1e3).toFixed(1)+'K':n||0;
+async function main(){
+const a=await fetch('/api/apps/'+slug).then(r=>r.json());
+if(a.error){document.getElementById('d').innerHTML='Not found';return;}
+document.title=a.name;
+const icon=a.icon?`<img src="${a.icon}">`:`<div class="bigicon">${a.name[0]}</div>`;
+document.getElementById('d').innerHTML=`<div class="glass-content"><div class="dhead">${icon}<div><h1>${a.name} ✔</h1><p style="color:var(--mut)">${a.developer} • ${a.category} • v${a.version}</p><div>⭐ ${a.rating} (${a.ratingCount}) • ⬇ ${fmtN(a.downloads)} • 👁 ${fmtN(a.views)}</div><button class="dlbtn" onclick="location='/api/download/${a.slug}'">⬇ DOWNLOAD (${a.sizeText||''})</button></div></div><div class="meta"><div><b>${a.version}</b><br><small>Version</small></div><div><b>${a.sizeText}</b><br><small>Size</small></div><div><b>${a.os}</b><br><small>Requires</small></div><div><b>${a.license}</b><br><small>License</small></div><div><b>${new Date(a.updatedAt).toLocaleDateString()}</b><br><small>Updated</small></div></div><h3>About</h3><p>${(a.description||'').replace(/\n/g,'<br>')}</p><h3 style="margin-top:14px">Screenshots</h3><div class="shots">${(a.screenshots||[]).map(s=>`<img loading="lazy" src="${s}">`).join('')||'—'}</div><h3 style="margin-top:14px">Old versions</h3><table id="vt"></table><h3 style="margin-top:14px">Reviews</h3><div style="display:flex;gap:8px;flex-wrap:wrap"><input id="rn" placeholder="Name" style="max-width:160px"><select id="rr" style="max-width:80px"><option>5</option><option>4</option><option>3</option><option>2</option><option>1</option></select></div><textarea id="rt" placeholder="Write review..."></textarea><button class="primary" onclick="postR()">Post review</button><div id="rl" style="margin-top:10px"></div></div>`;
+const vs=await fetch(`/api/apps/${a.slug}/versions`).then(r=>r.json());
+document.getElementById('vt').innerHTML=vs.map(v=>`<tr><td>v${v.version}</td><td>${v.changelog||''}</td><td>${new Date(v.updatedAt).toLocaleDateString()}</td><td><a style="color:var(--acc)" href="/api/download/${a.slug}">Get</a></td></tr>`).join('');
+loadR();
+if(a.related)document.getElementById('rel').innerHTML='<h2 class="sect">Related</h2><div class="grid">'+a.related.map(x=>`<a class="card liquid" data-lg="card" href="/app/${x.slug}"><span class="glass-content card-in"><span class="fakeicon">${x.name[0]}</span><span class="cbody"><b>${x.name}</b><small>${x.rating}★ • ${fmtN(x.downloads)} ↓</small></span></span></a>`).join('')+'</div>';
+}
+async function loadR(){const r=await fetch(`/api/apps/${slug}/reviews`).then(r=>r.json());document.getElementById('rl').innerHTML=r.map(x=>`<p style="padding:8px 0;border-bottom:1px solid var(--line)"><b>${x.name}</b> ${'★'.repeat(x.rating)}<br>${x.text}</p>`).join('')||'No reviews.'}
+async function postR(){const r=await fetch(`/api/apps/${slug}/reviews`,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({name:rn.value||'Guest',rating:rr.value,text:rt.value})}).then(r=>r.json());if(!r.error){rt.value='';loadR()}else alert(r.error)}
+main();
+</script><script src="/liquid.js?v=lg1" defer></script></body></html>

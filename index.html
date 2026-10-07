@@ -1,0 +1,25 @@
+<!DOCTYPE html><html lang="en"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>DownloadHub - Top Apps & Games</title><script src="https://cdn.tailwindcss.com"></script><link rel="stylesheet" href="/style.css?v=lg1"></head>
+<body class="text-slate-900 antialiased">
+<svg width="0" height="0" style="position:absolute"><defs>
+<filter id="lg-displace" x="-20%" y="-20%" width="140%" height="140%"><feTurbulence type="fractalNoise" baseFrequency="0.012 0.02" numOctaves="2" seed="7" result="n"/><feDisplacementMap in="SourceGraphic" in2="n" scale="26" xChannelSelector="R" yChannelSelector="G"/></filter>
+<filter id="lg-displace-sm" x="-20%" y="-20%" width="140%" height="140%"><feTurbulence type="fractalNoise" baseFrequency="0.02 0.03" numOctaves="2" seed="3" result="n"/><feDisplacementMap in="SourceGraphic" in2="n" scale="15" xChannelSelector="R" yChannelSelector="G"/></filter>
+</defs></svg>
+<div class="lg-bg"><div class="lg-blob lg-b1"></div><div class="lg-blob lg-b2"></div><div class="lg-blob lg-b3"></div><div class="lg-blob lg-b4"></div><div class="lg-grain"></div></div>
+<div id="root" class="wrap">
+<header class="liquid" data-lg="bar"><div class="wrap topbar-in">
+<a class="logo" href="/">⬇ Download<span>Hub</span></a>
+<div class="searchbox"><input id="q" placeholder="Search apps, games..." autocomplete="off"><button data-lg="btn" onclick="doSearch(true)">Search</button></div>
+<nav><a href="/" id="navHome" class="on">Home</a></nav>
+</div></header>
+<div class="wrap">
+<section class="hero liquid" data-lg="hero" id="hero"><div class="glass-content"><div class="slides" id="slides"><div class="slide on"><div><h1>Discover the best <em>apps & games</em></h1><p>Verified safe APKs. No signup, instant download.</p></div></div></div><div class="dots" id="dots"></div><button class="snav prev" onclick="slideMove(-1)">‹</button><button class="snav next" onclick="slideMove(1)">›</button></div></section>
+<section class="hero liquid" data-lg="hero" id="cathead" hidden><div class="glass-content cathead-in"><div class="cat-ic" id="catIc">🎮</div><div><h1 id="catName">Action</h1><p id="catDesc"></p><div class="pills"><span id="catCount"></span><span>✔ Verified</span></div><button class="ghostbtn" onclick="setCat('all')">← All</button></div></div></section>
+<div class="chips" id="cats"></div>
+<div id="home"></div>
+<div class="filterbar liquid" data-lg="bar"><div class="glass-content filter-in"><b id="browseTitle">Browse all</b><select id="sort" onchange="browse()"><option value="downloads">Most downloaded</option><option value="rating">Top rated</option><option value="updated">Recently updated</option><option value="name">Name A-Z</option></select><span id="cnt"></span></div></div>
+<div id="apps" class="grid"></div>
+</div><footer>DownloadHub</footer>
+</div>
+<script src="/home.js?v=lg1" defer></script>
+<script src="/liquid.js?v=lg1" defer></script></body></html>
