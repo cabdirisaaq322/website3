@@ -1,7 +1,7 @@
-<!DOCTYPE html><html><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>App</title><script src="https://cdn.tailwindcss.com"></script><link rel="stylesheet" href="/style.css?v=lg1"></head>
+<!DOCTYPE html><html><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>App</title><link rel="stylesheet" href="/style.css?v=lg2"></head>
 <body class="antialiased"><div class="lg-bg"><div class="lg-blob lg-b1"></div><div class="lg-blob lg-b2"></div><div class="lg-blob lg-b3"></div><div class="lg-grain"></div></div>
 <div id="root" class="wrap"><header class="liquid" data-lg="bar"><div class="wrap topbar-in"><a class="logo" href="/">⬇ Download<span>Hub</span></a><nav><a href="/">Home</a></nav></div></header>
-<div class="wrap"><div id="d" class="detail liquid" data-lg="hero"><div class="glass-content">Loading...</div></div><div id="rel"></div></div></div>
+<div class="wrap"><div id="d" class="detail liquid" data-lg="hero"><div class="glass-content"><div class="dhead"><div class="bigicon skel" style="background:none"></div><div style="flex:1"><div class="skel" style="height:1.4rem;width:55%;margin-bottom:.6rem;border-radius:.6rem"></div><div class="skel" style="height:.9rem;width:38%;border-radius:.6rem"></div></div></div><div class="skel" style="height:2.8rem;width:11rem;margin-top:1rem;border-radius:.9rem"></div></div></div><div id="rel"></div></div></div>
 <script>
 const slug=location.pathname.split('/app/')[1]||new URLSearchParams(location.search).get('slug');
 const fmtN=n=>n>=1e6?(n/1e6).toFixed(1)+'M':n>=1e3?(n/1e3).toFixed(1)+'K':n||0;
@@ -19,4 +19,4 @@ if(a.related)document.getElementById('rel').innerHTML='<h2 class="sect">Related<
 async function loadR(){const r=await fetch(`/api/apps/${slug}/reviews`).then(r=>r.json());document.getElementById('rl').innerHTML=r.map(x=>`<p style="padding:8px 0;border-bottom:1px solid var(--line)"><b>${x.name}</b> ${'★'.repeat(x.rating)}<br>${x.text}</p>`).join('')||'No reviews.'}
 async function postR(){const r=await fetch(`/api/apps/${slug}/reviews`,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({name:rn.value||'Guest',rating:rr.value,text:rt.value})}).then(r=>r.json());if(!r.error){rt.value='';loadR()}else alert(r.error)}
 main();
-</script><script src="/liquid.js?v=lg1" defer></script></body></html>
+</script><script src="/liquid.js?v=lg2" defer></script></body></html>

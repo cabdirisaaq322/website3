@@ -64,6 +64,15 @@ if(cat!=='all'&&cache&&!q){const items=(cache.shelves.find(x=>x.slug===cat)||{it
 $('cnt').textContent=items.length+' apps';$('apps').innerHTML=items.map(card).join('')||'<p>No apps in this category yet.</p>';return;}
 const d=await fetch('/api/apps?category='+cat+'&sort='+s+'&q='+encodeURIComponent(q)+'&limit=24').then(r=>r.json());
 $('cnt').textContent=d.total+' results';$('apps').innerHTML=d.items.map(card).join('')||'<p>No apps.</p>';}
-let t;function doSearch(now){clearTimeout(t);t=setTimeout(function(){browse().then(lgRefresh)},now?0:250)}
+let t;function doSearch(now){clearTimeout(t);t=setTimeout(function(){browse().then(lgRefresh)},now?0:320)}
 const qi=$('q');if(qi)qi.addEventListener('input',()=>doSearch(false));
+
+/* ── Intersection observer: fade cards in as they scroll into view ── */
+const _io=new IntersectionObserver(entries=>{entries.forEach(e=>{if(e.isIntersecting){e.target.classList.add('fadein');_io.unobserve(e.target)}})},{threshold:.08});
+function observeCards(){document.querySelectorAll('.card:not(.fadein)').forEach(el=>_io.observe(el));}
+
+/* patch renderHome & browse to trigger observer after paint */
+const _origRenderHome=renderHome;
+window.renderHome=function(){_origRenderHome();requestAnimationFrame(observeCards);};
+
 init();

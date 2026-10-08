@@ -1,6 +1,7 @@
-:root{--txt:#101828;--mut:#5b6b82;--acc:#007aff;--line:rgba(16,24,40,.09)}
+:root{--txt:#101828;--mut:#5b6b82;--acc:#007aff;--line:rgba(16,24,40,.09);--ease:cubic-bezier(.4,0,.2,1)}
 *{box-sizing:border-box;margin:0}
-body{font-family:-apple-system,BlinkMacSystemFont,"SF Pro Display",Inter,Segoe UI,system-ui;color:var(--txt);min-height:100vh;overflow-x:hidden;background:#dfe9f7}
+html{scroll-behavior:smooth}
+body{font-family:-apple-system,BlinkMacSystemFont,"SF Pro Display",Inter,Segoe UI,system-ui;color:var(--txt);min-height:100vh;overflow-x:hidden;background:#dfe9f7;-webkit-font-smoothing:antialiased;text-rendering:optimizeLegibility}
 .lg-bg{position:fixed;inset:0;z-index:-2;overflow:hidden;background:linear-gradient(155deg,#c9e2ff 0%,#e7f2ff 26%,#f4e9ff 48%,#e2f8ec 70%,#cfe6ff 100%)}
 .lg-blob{position:absolute;border-radius:50%;filter:blur(70px);opacity:.75}
 .lg-b1{width:44vmax;height:44vmax;left:-12vmax;top:-14vmax;background:radial-gradient(circle at 35% 35%,#7cc4ff,#2563eb 70%)}
@@ -8,7 +9,7 @@ body{font-family:-apple-system,BlinkMacSystemFont,"SF Pro Display",Inter,Segoe U
 .lg-b3{width:40vmax;height:40vmax;left:22vmax;bottom:-16vmax;background:radial-gradient(circle at 50% 50%,#6ee7b7,#0ea5e9 75%)}
 .lg-b4{width:26vmax;height:26vmax;right:20vmax;bottom:-8vmax;background:radial-gradient(circle at 50% 50%,#fdba74,#f43f5e 75%);opacity:.55}
 .lg-grain{position:absolute;inset:0;opacity:.5;background-image:radial-gradient(rgba(255,255,255,.7) 1px,transparent 1px);background-size:26px 26px}
-.liquid{position:relative;background:linear-gradient(135deg,rgba(255,255,255,.55),rgba(255,255,255,.22));backdrop-filter:blur(24px) saturate(1.7);-webkit-backdrop-filter:blur(24px) saturate(1.7);border:1px solid rgba(255,255,255,.85);box-shadow:0 18px 50px rgba(30,64,175,.18),inset 0 1px 0 rgba(255,255,255,.95),inset 0 -12px 24px rgba(37,99,235,.08)}
+.liquid{position:relative;background:linear-gradient(135deg,rgba(255,255,255,.55),rgba(255,255,255,.22));backdrop-filter:blur(24px) saturate(1.7);-webkit-backdrop-filter:blur(24px) saturate(1.7);border:1px solid rgba(255,255,255,.85);box-shadow:0 18px 50px rgba(30,64,175,.18),inset 0 1px 0 rgba(255,255,255,.95),inset 0 -12px 24px rgba(37,99,235,.08);transition:box-shadow .25s var(--ease),transform .25s var(--ease)}
 .liquid::before{content:"";position:absolute;inset:0;border-radius:inherit;pointer-events:none;background:linear-gradient(180deg,rgba(255,255,255,.65),rgba(255,255,255,0) 42%)}
 .lg-spec{position:absolute;top:2px;left:8%;right:8%;height:44%;border-radius:999px;background:radial-gradient(50% 100% at 50% 0%,rgba(255,255,255,.8),transparent 70%);pointer-events:none}
 .glass-content{position:relative;z-index:2}
@@ -63,6 +64,47 @@ nav{display:flex;gap:.4rem}nav a{color:var(--mut);text-decoration:none;padding:.
 .filterbar select{max-width:12rem}
 #cnt{color:var(--mut);font-size:.82rem}
 footer{text-align:center;padding:1.75rem;color:rgba(255,255,255,.9);font-size:.82rem}
+
+/* ── Smooth card hover ── */
+.card{transition:transform .2s var(--ease),box-shadow .2s var(--ease)}
+.card:hover{transform:translateY(-4px) scale(1.02);box-shadow:0 24px 48px rgba(30,64,175,.22)}
+.card:active{transform:scale(.97)}
+
+/* ── Button feedback ── */
+.dlbtn,.primary,.searchbox button{transition:filter .15s var(--ease),transform .15s var(--ease)}
+.dlbtn:hover,.primary:hover,.searchbox button:hover{filter:brightness(1.1)}
+.dlbtn:active,.primary:active,.searchbox button:active{transform:scale(.96)}
+
+/* ── Shimmer skeleton ── */
+@keyframes shimmer{0%{background-position:-600px 0}100%{background-position:600px 0}}
+.skel{background:linear-gradient(90deg,rgba(255,255,255,.4) 25%,rgba(255,255,255,.75) 50%,rgba(255,255,255,.4) 75%);background-size:600px 100%;animation:shimmer 1.4s infinite linear;border-radius:1.4rem}
+
+/* ── Slide transition ── */
+.slide{opacity:0;transition:opacity .4s var(--ease)}
+.slide.on{opacity:1}
+
+/* ── Dot transition ── */
+.dot{transition:transform .2s var(--ease),background .2s var(--ease)}
+.dot.on{transform:scale(1.35)}
+
+/* ── Fade-in on scroll ── */
+@keyframes fadeUp{from{opacity:0;transform:translateY(18px)}to{opacity:1;transform:none}}
+.fadein{animation:fadeUp .45s var(--ease) both}
+
+/* ── Search box focus ── */
+.searchbox{transition:box-shadow .2s var(--ease)}
+.searchbox:focus-within{box-shadow:0 0 0 3px rgba(0,122,255,.25)}
+
+/* ── Chip hover ── */
+.chip{transition:background .18s var(--ease),color .18s var(--ease),transform .15s var(--ease)}
+.chip:hover:not(.on){background:rgba(255,255,255,.55);transform:scale(1.05)}
+.chip:active{transform:scale(.95)}
+
+/* ── Smooth scroll for rows ── */
+.hrow{scroll-behavior:smooth;-webkit-overflow-scrolling:touch}
+
+/* ── Page entry ── */
+#root{animation:fadeUp .35s var(--ease) both}
 .detail{padding:1.6rem;margin-top:1rem;border-radius:28px}
 .dhead{display:flex;gap:1.1rem;flex-wrap:wrap;align-items:center}
 .dhead img,.bigicon{width:6.5rem;height:6.5rem;border-radius:1.5rem}
