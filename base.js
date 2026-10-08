@@ -14,7 +14,7 @@ const nanoid = customAlphabet('abcdefghijklmnopqrstuvwxyz0123456789', 8);
 app.use(cors());
 app.use(express.json({ limit: '10mb' }));
 app.use(express.urlencoded({ extended: true }));
-app.use(express.static(path.join(__dirname, 'public'), { maxAge: '7d', etag: true }));
+app.use(express.static(path.join(__dirname), { maxAge: '7d', etag: true }));
 app.use('/uploads', express.static(path.join(__dirname, 'uploads'), { maxAge: '7d', etag: true }));
 
 const uploadDir = path.join(__dirname, 'uploads');
